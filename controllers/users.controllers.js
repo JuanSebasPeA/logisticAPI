@@ -69,8 +69,10 @@ const login = async (req, res) => {
   //Creando el token con el id y el email del usuario
   const token = jwt.sign(userForToken, process.env.SECRET_KEY, {
     // El token expira en 1 hora
-    expiresIn: "1h",
+    expiresIn: 60 * 60,
   });
+  
+  
 
   // Se devuelve el token
   res.status(200).json({
@@ -81,7 +83,16 @@ const login = async (req, res) => {
   });
 };
 
+
+//Controlador para devolver todos los usuarios
+const getUsers = async (req, res) => {
+  const users = await AuthSchema.find();
+  res.json(users);
+};
+
+
 module.exports = {
   signUp,
   login,
+  getUsers,
 };

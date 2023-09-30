@@ -1,5 +1,5 @@
 //Controladores para las rutas de los usuarios
-const { signUp, login } = require("../controllers/users.controllers");
+const { signUp, login, getUsers } = require("../controllers/users.controllers");
 const { Router } = require("express");
 // instanciando Router
 const router = Router();
@@ -8,6 +8,9 @@ const router = Router();
 router.post("/signup", signUp);
 
 router.post("/login", login);
+
+//Ruta para listas todos los usuarios
+router.get("/users", getUsers);
 
 
 module.exports = router;
