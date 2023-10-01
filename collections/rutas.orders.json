@@ -1,0 +1,30 @@
+[{
+  "_id": {
+    "$oid": "6519b6cbb60ce06fed00bc5b"
+  },
+  "orderType": "1",
+  "description": "Order of type 1",
+  "route": "6518d79a62fa19034149354b",
+  "status": "in progress",
+  "truck": "647e7fa808f76ab0e20a6c9a"
+},
+{
+  "_id": {
+    "$oid": "6519b6cbb60ce06fed00bc5c"
+  },
+  "orderType": "2",
+  "description": "Order of type 2",
+  "route": "6519b54cf607ba24ac923323",
+  "status": "completed",
+  "truck": "647e7f2708f76ab0e20a6c98"
+},
+{
+  "_id": {
+    "$oid": "6519b6cbb60ce06fed00bc5d"
+  },
+  "orderType": "3",
+  "description": "Order of type 3",
+  "route": "6519b5edf607ba24ac923328",
+  "status": "completed",
+  "truck": "647e807d08f76ab0e20a6c9e"
+}]

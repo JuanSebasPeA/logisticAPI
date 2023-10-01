@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "6517848d93a04c9e3d97f160"
+  },
+  "email": "correo@correo.com",
+  "password": "$2b$10$GznRjl8Unq2TjVUE45nmRuk8cTGNsrfE2y6ipeHof9qZRA6LsbVue",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "651784da93a04c9e3d97f165"
+  },
+  "email": "otrocorreo@correo.com",
+  "password": "$2b$10$9nmT07lcbTOE.0uaJXpsBOBlQPeXDkaxkvwSHa96v92qIZ0.nuL6m",
+  "__v": 0
+}]
