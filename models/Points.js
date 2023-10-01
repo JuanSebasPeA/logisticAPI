@@ -6,7 +6,7 @@ const PointsSchema = Schema({
             type: String,
             required: true,
         },
-        "pacedId": {
+        "placedId": {
             type: String,
             required: true,
         },
