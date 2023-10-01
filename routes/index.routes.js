@@ -7,6 +7,8 @@ const getPoints = require('../controllers/points.controllers');
 const getTrucks = require('../controllers/trucks.controllers');
 //Importando el controaldor de las rutas
 const { createRoute, modifyRoute, getRoutes, deleteRoute, getRoutesInfo } = require('../controllers/routes.controller');
+//Importando el controlador de la ordenes
+const { getOrders, modifyOrderStatus, deleteOrder, assignTruck } = require('../controllers/orders.controller');
 
 //Importando el middleware para verificar el token
 const verifyToken = require('../services/userLogged');
@@ -18,8 +20,19 @@ router.get('/', (req, res) => {
     res.json({ 
         message: 'Main Route',
         endpoints: [
+            "/api/login --> POST",
+            "/api/signin --> POST",
             "/api/users",
-            "/api/points"
+            "/api/points",
+            "/api/trucks",
+            "/api/routes",
+            "/api/orders",
+            "/api/orders/truck/:id --> PUT",
+            "/api/orders/:id --> PUT",
+            "/api/orders/:id --> DELETE",
+            "/api/routes/:id --> PUT",
+            "/api/routes/:id --> DELETE",
+            "/api/routes/info",
         ] 
     });
 });
@@ -39,6 +52,15 @@ router.put('/routes/:id', verifyToken, modifyRoute);
 router.delete('/routes/:id', verifyToken, deleteRoute);
 //Ruta para ver la información de las rutas
 router.get('/routes/info', verifyToken, getRoutesInfo);
+
+//Ruta para ver las ordenes
+router.get('/orders', verifyToken, getOrders);
+//Ruta para modificar el status de una orden
+router.put('/orders/:id', verifyToken, modifyOrderStatus);
+//Ruta para eliminar una orden
+router.delete('/orders/:id', verifyToken, deleteOrder);
+//Ruta para asignar un camión a una orden
+router.put('/orders/truck/:id', verifyToken, assignTruck);
 
 
 

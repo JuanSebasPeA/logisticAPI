@@ -8,8 +8,6 @@ const Route = require("../models/Rout");
 const PointsSchema = require("../models/Points");
 const axios = require("axios");
 
-
-
 //---------------------------------------------------------------------------------------
 //Función para crear una ruta
 const createRoute = async (req, res) => {
@@ -53,7 +51,6 @@ const createRoute = async (req, res) => {
     newRoute,
   });
 }; // Cirre ala función para crear puntos
-
 
 //---------------------------------------------------------------------------------------
 //Función para modificar una ruta
@@ -105,7 +102,6 @@ const modifyRoute = async (req, res) => {
   });
 }; // ciere de la función para modificar una ruta
 
-
 //---------------------------------------------------------------------------------------
 // Función para listar todas las rutas
 const getRoutes = async (req, res) => {
@@ -120,13 +116,15 @@ const getRoutes = async (req, res) => {
 
   //Generando mensaje para que cada ruta muestre los puntos que la conforman ccon el formato: FROM - TO
   const routesMessage = routes.map((route) => {
-    return `FROM: ${route.points[0].location.name} TO: ${route.points[1].location.name}`;
+    return `FROM: ${route.points[0].location.name} TO: ${route.points[1].location.name}
+    `
   });
 
   //Se envían las rutas
   return res.json({
     message: "Routes",
-    routesMessage,
+    "Routes": routesMessage,
+    "Routes description": routes,
   });
 }; // ciere de la función para listar todas las rutas
 
@@ -172,28 +170,6 @@ const getRoutesInfo = async (req, res) => {
     return coordinates;
   });
 
-
-  //Controlador para eliminar una ruta dado su id
-const deleteRoute = async (req, res) => {
-  // Se obtiene el id de la ruta a eliminar
-  const { id } = req.params;
-  //Se verifica que la ruta exista
-  const routeExists = await Route.findById(id);
-  //Si la ruta no existe, se envía un mensaje de error
-  if (!routeExists) {
-    return res.json({
-      message: "Error: This route does not exist",
-    });
-  }
-  //Si todo salió bien se elimina la ruta
-  await Route.findByIdAndDelete(id);
-  //Se envía un mensaje al terminar de eliminar la ruta
-  return res.json({
-    message: "Route deleted",
-  });
-}; // ciere de la función para eliminar una ruta
-
-
   // Se obtiene la distancia entre los puntos de cada ruta usando la API de Google Maps y el placeId de cada punto
   const distanceRoutes = pointsRoutes.map((route) => {
     // Se obtiene la distancia entre los puntos de cada ruta usando la API de Google Maps y el placeId de cada punto
@@ -228,6 +204,38 @@ const deleteRoute = async (req, res) => {
     routesInfo,
   });
 }; // cierre de función con la información de las rutas
+
+// ---------------------------------------------------------------------------------------
+//Controlador para eliminar una ruta dado su id
+const deleteRoute = async (req, res) => {
+  // Se obtiene el id de la ruta a eliminar
+  const { id } = req.params;
+  //Se verifica que la ruta exista
+  const routeExists = await Route.findById(id);
+  //Si la ruta no existe, se envía un mensaje de error
+  if (!routeExists) {
+    return res.json({
+      message: "Error: This route does not exist",
+    });
+  }
+
+  //Si una orden que tiene esa ruta está en progreso, no se puede eliminar la ruta
+  const orders = await OrderSchema.find({ route: id });
+  //DEBUG: console.log(orders);
+  orders.forEach((order) => {
+    if (order.status === "In progress") {
+      return res.json({
+        message: "Error: This route has an order in progress",
+      });
+    }
+  });
+  // Si no hay ordenes en progreso, se elimina la ruta
+  await routeExists.remove();
+  // Se envía un mensaje al terminar de eliminar la ruta
+  return res.json({
+    message: "Route deleted",
+  });
+}; // ciere de la función para eliminar una ruta
 
 module.exports = {
   createRoute,
